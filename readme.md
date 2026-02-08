@@ -1,92 +1,94 @@
-# SMS Kit - A Simple Bulk SMS Sender
+# sms-kit - Multi-Provider SMS Sender
 
-A simple and easy-to-use SMS sender package for Bangladesh. The package allows you to send SMS messages using an API and can automatically grab API credentials from environment variables.
+An easy-to-use SMS sender with a unified API for multiple providers. This kit focuses on a clean, dependency-free core and lets you plug provider credentials via config or environment variables.
 
 ## Installation
 
 ```sh
-npm install @anisafifi/sms-kit
+npm install sms-kit
 ```
 
 ## Importing the Module
 
 ```ts
-import { sendSms } from "@anisafifi/sms-kit";
+import { sendSms } from "sms-kit";
 ```
 
 ## Usage
 
-You can use the package to send SMS messages by calling the `sendSms` function. This function accepts the following parameters:
+You can send SMS messages by calling the `sendSms` function with a `provider` and `message` object.
 
 ### **`sendSms` function**
 
 ```typescript
 sendSms({
-  recipientNumbers: string[],  // Array of recipient phone numbers (in international format, e.g., '+8801712345678')
-  message: string,             // The message to be sent
-  apiKey?: string,             // Your API key (optional, will use environment variable if not provided)
-  apiUrl?: string,             // The API URL (optional, will use environment variable if not provided)
-  senderId?: string            // The sender ID (optional, will use environment variable if not provided)
+  provider: "twilio", // Choose a provider id
+  message: {
+    to: ["+8801712345678"], // Recipients in international format
+    message: "Hello from sms-kit!",
+    senderId: "MyBrand", // Optional override
+  },
+  config: {
+    accountSid: "your_twilio_sid",
+    authToken: "your_twilio_token",
+    from: "+15005550006",
+  },
 });
 ```
 
 ### Example:
 
 ```typescript
-import { sendSms } from "@anisafifi/sms-kit";
+import { sendSms } from "sms-kit";
 
 // Send an SMS message
 sendSms({
-  recipientNumbers: ['+8801712345678'],
-  message: 'Hello from SMS Kit!'
-}).then(response => {
-  console.log('SMS Response:', response);
-}).catch(error => {
-  console.error('Error:', error);
+  provider: "smsto",
+  message: {
+    to: ["+8801712345678"],
+    message: "Hello from sms-kit!",
+  },
+  config: {
+    apiKey: "your_smsto_key",
+    senderId: "MyBrand",
+  },
+}).then((response) => {
+  console.log("SMS Response:", response);
 });
 ```
 
 ## Environment Variables
 
-The following environment variables are supported and will be automatically used if not passed explicitly to the `sendSms` function:
-
-- `SMS_API_KEY`: The API key for your SMS provider.
-- `SMS_API_URL`: The API URL for the SMS provider's endpoint.
-- `SMS_API_SENDER_ID`: The sender ID you wish to use for sending the SMS.
-
-You can define these variables in your `.env` file or directly in your environment.
-
-### Example `.env` file:
+Each provider uses its own environment variables. Provide them in your runtime or a `.env` file (loaded by your app). Examples:
 
 ```env
-SMS_API_KEY=your_api_key
-SMS_API_URL=https://api.smsprovider.com
-SMS_API_SENDER_ID=YourSenderID
-```
+TWILIO_ACCOUNT_SID=your_twilio_sid
+TWILIO_AUTH_TOKEN=your_twilio_token
+TWILIO_FROM=+15005550006
 
-Make sure to install `dotenv` to load the environment variables if you're using a `.env` file:
+MESSAGEBIRD_API_KEY=your_messagebird_key
+MESSAGEBIRD_ORIGINATOR=MyBrand
 
-```bash
-npm install dotenv
-```
+SMSTO_API_KEY=your_smsto_key
+SMSTO_SENDER_ID=MyBrand
 
-or you can use any other package that will handle `.env` file.
+TEXTLOCAL_API_KEY=your_textlocal_key
+TEXTLOCAL_SENDER=MyBrand
 
-Then, in your code:
+BULKSMS_TOKEN_ID=your_bulksms_token_id
+BULKSMS_TOKEN_SECRET=your_bulksms_token_secret
 
-```typescript
-import dotenv from 'dotenv';
-dotenv.config();
+MIMSMS_USERNAME=you@example.com
+MIMSMS_API_KEY=your_mimsms_key
+MIMSMS_SENDER_NAME=MyBrand
+MIMSMS_TRANSACTION_TYPE=T
+MIMSMS_CAMPAIGN_ID=
 
-// Now you can use sendSms as usual
-sendSms({
-  recipientNumbers: ['8801*********'],
-  message: 'Hello from SMS Kit!'
-}).then(response => {
-  console.log('SMS Response:', response);
-}).catch(error => {
-  console.error('Error:', error);
-});
+SMSNETBD_API_KEY=your_smsnetbd_key
+SMSNETBD_SENDER_ID=MyBrand
+
+BULKSMSBD_API_KEY=your_bulksmsbd_key
+BULKSMSBD_SENDER_ID=MyBrand
 ```
 
 ## Error Handling
@@ -96,8 +98,10 @@ The `sendSms` function will return an object with the following structure:
 ```typescript
 {
   success: boolean;
-  data?: any;
+  provider: "twilio" | "messagebird" | "smsto" | "textlocal" | "bulksms" | "mimsms" | "smsnetbd" | "bulksmsbd" | "unknown";
+  data?: unknown;
   error?: string;
+  statusCode?: number;
 }
 ```
 
@@ -113,15 +117,20 @@ The `sendSms` function will return an object with the following structure:
 }
 ```
 
-## Configuration Options
+## Providers
 
-You can provide the following configuration options when calling `sendSms`:
+Current provider ids:
 
-- `recipientNumbers`: A list of phone numbers (strings) to send the SMS to. The numbers should be in international format (e.g., `+8801712345678`).
-- `message`: The content of the message you want to send.
-- `apiKey`: (Optional) The API key for the SMS provider. If not provided, it will be fetched from the environment variable `SMS_API_KEY`.
-- `apiUrl`: (Optional) The API URL for the SMS provider. If not provided, it will be fetched from the environment variable `SMS_API_URL`.
-- `senderId`: (Optional) The sender ID to be used for sending the SMS. If not provided, it will be fetched from the environment variable `SMS_API_SENDER_ID`.
+- `twilio`
+- `messagebird`
+- `smsto`
+- `textlocal`
+- `bulksms`
+- `mimsms`
+- `smsnetbd`
+- `bulksmsbd`
+
+Adapters are scaffolded and ready to be wired to provider APIs. Once you share the API docs, the request builders can be finalized in the provider files under `src/providers/`.
 
 ## License
 

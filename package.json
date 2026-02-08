@@ -1,11 +1,11 @@
 {
-  "name": "@anisafifi/sms-kit",
+  "name": "sms-kit",
   "description": "An easy-to-use SMS sender for Bangladesh",
   "version": "0.0.1",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "homepage": "https://codewithafifi.com/tools/sms-kit/",
+  "homepage": "https://github.com/anisafifi/sms-kit",
   "keywords": [
     "SMS Sender",
     "Bulk SMS",
