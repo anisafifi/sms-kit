@@ -1,20 +1,52 @@
 {
   "name": "sms-kit",
-  "description": "An easy-to-use SMS sender for Bangladesh",
+  "description": "Multi-provider SMS sender with a unified API",
   "version": "0.0.1",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
   "homepage": "https://github.com/anisafifi/sms-kit",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anisafifi/sms-kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anisafifi/sms-kit/issues"
+  },
   "keywords": [
-    "SMS Sender",
-    "Bulk SMS",
-    "Generator"
+    "sms",
+    "sms-api",
+    "sms-provider",
+    "bulk-sms",
+    "transactional-sms",
+    "bangladesh",
+    "twilio",
+    "messagebird",
+    "textlocal",
+    "bulksms"
   ],
   "author": "Anis Afifi",
   "license": "MIT",
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "prepublishOnly": "npm run build"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "devDependencies": {
     "@types/node": "^22.12.0",

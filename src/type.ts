@@ -62,6 +62,8 @@ export type MimSmsConfig = {
 export type SmsNetBdConfig = {
   apiKey?: string;
   senderId?: string;
+  schedule?: string;
+  contentId?: string;
   apiBaseUrl?: string;
 };
 

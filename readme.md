@@ -1,4 +1,4 @@
-# sms-kit - Multi-Provider SMS Sender
+# SMS Kit - Multi-Provider SMS Sender
 
 An easy-to-use SMS sender with a unified API for multiple providers. This kit focuses on a clean, dependency-free core and lets you plug provider credentials via config or environment variables.
 
@@ -86,6 +86,8 @@ MIMSMS_CAMPAIGN_ID=
 
 SMSNETBD_API_KEY=your_smsnetbd_key
 SMSNETBD_SENDER_ID=MyBrand
+SMSNETBD_SCHEDULE=2021-10-13 16:00:52
+SMSNETBD_CONTENT_ID=
 
 BULKSMSBD_API_KEY=your_bulksmsbd_key
 BULKSMSBD_SENDER_ID=MyBrand
@@ -129,8 +131,6 @@ Current provider ids:
 - `mimsms`
 - `smsnetbd`
 - `bulksmsbd`
-
-Adapters are scaffolded and ready to be wired to provider APIs. Once you share the API docs, the request builders can be finalized in the provider files under `src/providers/`.
 
 ## License
 
