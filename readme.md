@@ -91,6 +91,10 @@ SMSNETBD_CONTENT_ID=
 
 BULKSMSBD_API_KEY=your_bulksmsbd_key
 BULKSMSBD_SENDER_ID=MyBrand
+
+AUTOMAS_API_KEY=your_automas_key
+AUTOMAS_SENDER_ID=AUTOMAS
+AUTOMAS_API_BASE_URL=https://api.automas.sms.com
 ```
 
 ## Error Handling
@@ -100,7 +104,7 @@ The `sendSms` function will return an object with the following structure:
 ```typescript
 {
   success: boolean;
-  provider: "twilio" | "messagebird" | "smsto" | "textlocal" | "bulksms" | "mimsms" | "smsnetbd" | "bulksmsbd" | "unknown";
+  provider: "twilio" | "messagebird" | "smsto" | "textlocal" | "bulksms" | "mimsms" | "smsnetbd" | "bulksmsbd" | "automas" | "unknown";
   data?: unknown;
   error?: string;
   statusCode?: number;
@@ -131,6 +135,7 @@ Current provider ids:
 - `mimsms`
 - `smsnetbd`
 - `bulksmsbd`
+- `automas`
 
 ## Provider Examples
 
@@ -271,6 +276,23 @@ await sendSms({
   },
   config: {
     apiKey: "your_bulksmsbd_key",
+  },
+});
+```
+
+```typescript
+import { sendSms } from "sms-kit";
+
+// Automas
+await sendSms({
+  provider: "automas",
+  message: {
+    to: ["8801700000000", "8801800000000"],
+    message: "Hello from Automas",
+    senderId: "AUTOMAS",
+  },
+  config: {
+    apiKey: "your_automas_key",
   },
 });
 ```

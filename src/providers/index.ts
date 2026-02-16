@@ -11,6 +11,7 @@ import { smsNetBdAdapter } from "./smsnetbd";
 import { smsToAdapter } from "./smsto";
 import { textlocalAdapter } from "./textlocal";
 import { twilioAdapter } from "./twilio";
+import { automasAdapter } from "./automas";
 
 const providers: {
   [K in SmsProviderId]: ProviderAdapter<ProviderConfigMap[K]>;
@@ -23,6 +24,7 @@ const providers: {
   mimsms: mimSmsAdapter,
   smsnetbd: smsNetBdAdapter,
   bulksmsbd: bulksmsbdAdapter,
+  automas: automasAdapter,
 };
 
 export function getProviderAdapter<TProvider extends SmsProviderId>(

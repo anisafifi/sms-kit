@@ -6,7 +6,8 @@ export type SmsProviderId =
   | "bulksms"
   | "mimsms"
   | "smsnetbd"
-  | "bulksmsbd";
+  | "bulksmsbd"
+  | "automas";
 
 export type SmsResponseProvider = SmsProviderId | "unknown";
 
@@ -73,6 +74,12 @@ export type BulkSmsBdConfig = {
   apiBaseUrl?: string;
 };
 
+export type AutomasConfig = {
+  apiKey?: string;
+  senderId?: string;
+  apiBaseUrl?: string;
+};
+
 export type ProviderConfigMap = {
   twilio: TwilioConfig;
   messagebird: MessageBirdConfig;
@@ -82,6 +89,7 @@ export type ProviderConfigMap = {
   mimsms: MimSmsConfig;
   smsnetbd: SmsNetBdConfig;
   bulksmsbd: BulkSmsBdConfig;
+  automas: AutomasConfig;
 };
 
 export type SendSmsOptions<TProvider extends SmsProviderId = SmsProviderId> = {
